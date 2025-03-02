@@ -1,0 +1,15 @@
+{"time":"2025-03-02T15:25:42.611260948Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250302_152542-ghiwacp3/logs/debug-core.log"}
+{"time":"2025-03-02T15:25:42.719511109Z","level":"INFO","msg":"created new stream","id":"ghiwacp3"}
+{"time":"2025-03-02T15:25:42.719539943Z","level":"INFO","msg":"stream: started","id":"ghiwacp3"}
+{"time":"2025-03-02T15:25:42.719602654Z","level":"INFO","msg":"handler: started","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:25:42.719601115Z","level":"INFO","msg":"writer: Do: started","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:25:42.719816141Z","level":"INFO","msg":"sender: started","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:25:43.057289717Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-02T15:27:41.583467126Z","level":"INFO","msg":"stream: closing","id":"ghiwacp3"}
+{"time":"2025-03-02T15:27:41.583525587Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-02T15:27:41.587348063Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-02T15:27:43.100430872Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-02T15:27:43.396138551Z","level":"INFO","msg":"handler: closed","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:27:43.396186469Z","level":"INFO","msg":"writer: Close: closed","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:27:43.396228067Z","level":"INFO","msg":"sender: closed","stream_id":"ghiwacp3"}
+{"time":"2025-03-02T15:27:43.396374536Z","level":"INFO","msg":"stream: closed","id":"ghiwacp3"}

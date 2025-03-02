@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/wandb_trial", line 67, in <module>
+    train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=1)
+  File "/home/mallikarjun/da6401_assignment1/wandb_trial", line 56, in train
+    optimizer.step(model)
+    ^^^^^^^^^^^^^^
+AttributeError: 'SGD' object has no attribute 'step'

@@ -33,6 +33,27 @@ class Sigmoid(FFSigmoid):
     def backward(self, output_grad):
         return output_grad * self.output * (1 - self.output)
 
+class Tanh(Activation):
+    def forward(self, input_data):
+        self.output = np.tanh(input_data)
+        return self.output
+    def backward(self, output_grad):
+        return output_grad * (1 - self.output**2)
+
+class Softmax(Activation):
+    def forward(self, input_data):
+        self.output = np.exp(input_data) / np.sum(np.exp(input_data), axis=1, keepdims=True)
+        return self.output
+    def backward(self, output_grad):
+        return output_grad
+class  CrossEntropyLoss:
+    def forward(self, y_pred, y_true):
+        self.y_pred = y_pred
+        self.y_true = y_true
+        return -np.sum(y_true * np.log(y_pred + 1e-8)) / len(y_true)
+    def backward(self):
+        return self.y_pred - self.y_true
+
 class Optimizer:
     def update(self, layer, weights_grad, biases_grad):
         raise NotImplementedError
@@ -124,9 +145,10 @@ class Adam(Optimizer):
 class Nadam(Optimizer):
     def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8):
         self.learning_rate = learning_rate
+        self.epsilon = epsilon
         self.beta1 = beta1
         self.beta2 = beta2
-        self.epsilon = epsilon
+        
 
     def update(self, layer, weights_grad, biases_grad):
         if layer.m_w is None:
@@ -163,35 +185,39 @@ class NeuralNetwork:
             else:
                 output_grad = layer.backward(output_grad)
 
-# Initialize the optimizer
-optimizer = Adam(learning_rate=0.001)
+def main():
+    # Initialize the optimizer
+    optimizer = Adam(learning_rate=0.001)
 
-# Initialize the network layers
-layer1 = Layer(784, 128)
-activation1 = ReLU()
-layer2 = Layer(128, 10)
-activation2 = Sigmoid()
+    # Initialize the network layers
+    layer1 = Layer(784, 128)
+    activation1 = ReLU()
+    layer2 = Layer(128, 10)
+    activation2 = Softmax()
 
-# Create the neural network with the optimizer
-network = NeuralNetwork([layer1, activation1, layer2, activation2], optimizer)
+    # Create the neural network with the optimizer
+    network = NeuralNetwork([layer1, activation1, layer2, activation2], optimizer)
 
-# Load the dataset
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+    # Load the dataset
+    (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
-# Preprocess the data
-x_train = x_train.reshape(x_train.shape[0], -1) / 255.0
-x_test = x_test.reshape(x_test.shape[0], -1) / 255.0
+    # Preprocess the data
+    x_train = x_train.reshape(x_train.shape[0], -1) / 255.0
+    x_test = x_test.reshape(x_test.shape[0], -1) / 255.0
 
-# Forward pass
-output = network.forward(x_train[0])
+    # Forward pass
+    output = network.forward(x_train[0])
 
-# Backward pass
-output_grad = output - y_train[0]  # Assuming y_train is one-hot encoded
-network.backward(output_grad)
+    # Backward pass
+    output_grad = output - y_train[0]  # Assuming y_train is one-hot encoded
+    network.backward(output_grad)
 
-print("output", output)
-print("output_grad", output_grad)
-print("weights layer1", layer1.weights)
-print("biases layer1", layer1.biases)
-print("weights layer2", layer2.weights)
-print("biases layer2", layer2.biases)
+    print("output", output)
+    print("output_grad", output_grad)
+    print("weights layer1", layer1.weights)
+    print("biases layer1", layer1.biases)
+    print("weights layer2", layer2.weights)
+    print("biases layer2", layer2.biases)
+
+if __name__ == "__main__":
+    main()
