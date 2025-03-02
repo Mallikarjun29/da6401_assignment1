@@ -9,7 +9,7 @@ class FFNN:
         self.output = None
 
     def forward(self, input_data):
-        self.input = input_data.reshape(1, -1)
+        self.input = input_data
         self.output = np.dot(input_data, self.weights) + self.biases
         return self.output
 
@@ -46,7 +46,7 @@ def main():
     sigmoid = FFSigmoid()
 
     # Forward pass
-    output = layer.forward(x_train[0])
+    output = layer.forward(x_train[0:32])
     output = relu.forward(output)
     output = sigmoid.forward(output)
 

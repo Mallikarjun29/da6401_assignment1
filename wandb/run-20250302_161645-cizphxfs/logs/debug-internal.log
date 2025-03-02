@@ -1,0 +1,15 @@
+{"time":"2025-03-02T16:16:45.89001698Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250302_161645-cizphxfs/logs/debug-core.log"}
+{"time":"2025-03-02T16:16:46.00179031Z","level":"INFO","msg":"created new stream","id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.001861172Z","level":"INFO","msg":"stream: started","id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.001983951Z","level":"INFO","msg":"handler: started","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.002330074Z","level":"INFO","msg":"sender: started","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.002496881Z","level":"INFO","msg":"writer: Do: started","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.367669344Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-02T16:16:46.540477347Z","level":"INFO","msg":"stream: closing","id":"cizphxfs"}
+{"time":"2025-03-02T16:16:46.540803567Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-02T16:16:46.54132675Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-02T16:16:48.065600242Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-02T16:16:48.364756068Z","level":"INFO","msg":"handler: closed","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:48.364782941Z","level":"INFO","msg":"writer: Close: closed","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:48.364842178Z","level":"INFO","msg":"sender: closed","stream_id":"cizphxfs"}
+{"time":"2025-03-02T16:16:48.364855643Z","level":"INFO","msg":"stream: closed","id":"cizphxfs"}

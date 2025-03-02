@@ -33,7 +33,7 @@ model = NeuralNetwork([
 ], optimizer)
 
 # Initialize the wandb run
-wandb.init(project="da6401_assignment1", name="wandb_trial")
+wandb.init(project="da6401_assignment1", name="wandb_trial2")
 
 def train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=32):
     num_classes = 10
@@ -63,7 +63,7 @@ def train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10,
         wandb.log({"train_loss": loss_val, "val_loss": val_loss})
 
 # Train the model
-train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=1)
+train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=16)
 
 # Log the model
-wandb.sklearn.plot_model(model, "model.pkl")
+# wandb.sklearn.plot_model(model, "model.pkl")

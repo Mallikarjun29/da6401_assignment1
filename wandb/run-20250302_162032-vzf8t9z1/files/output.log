@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/wandb_trial", line 66, in <module>
+    train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=16)
+  File "/home/mallikarjun/da6401_assignment1/wandb_trial", line 55, in train
+    model.backward(loss_grad)
+  File "/home/mallikarjun/da6401_assignment1/q3.py", line 184, in backward
+    output_grad = layer.backward(output_grad, self.optimizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/q3.py", line 16, in backward
+    weights_grad = np.dot(self.input_data.T, output_grad)
+                          ^^^^^^^^^^^^^^^
+AttributeError: 'Layer' object has no attribute 'input_data'
