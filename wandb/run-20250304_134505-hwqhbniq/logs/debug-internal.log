@@ -1,0 +1,16 @@
+{"time":"2025-03-04T13:45:05.256361762Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_134505-hwqhbniq/logs/debug-core.log"}
+{"time":"2025-03-04T13:45:05.372551831Z","level":"INFO","msg":"created new stream","id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:05.372594833Z","level":"INFO","msg":"stream: started","id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:05.372653923Z","level":"INFO","msg":"writer: Do: started","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:05.372747411Z","level":"INFO","msg":"sender: started","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:05.372767509Z","level":"INFO","msg":"handler: started","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:05.751682988Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T13:45:05.837328083Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T13:45:05.837920797Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T13:45:06.761390212Z","level":"INFO","msg":"stream: closing","id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:06.780646917Z","level":"WARN","msg":"sender: received Exit record more than once, ignoring"}
+{"time":"2025-03-04T13:45:07.49382565Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T13:45:07.791478915Z","level":"INFO","msg":"handler: closed","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:07.791502407Z","level":"INFO","msg":"writer: Close: closed","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:07.791546108Z","level":"INFO","msg":"sender: closed","stream_id":"hwqhbniq"}
+{"time":"2025-03-04T13:45:07.791553033Z","level":"INFO","msg":"stream: closed","id":"hwqhbniq"}

@@ -1,0 +1,79 @@
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_setup.py:_flush():67] Current SDK version is 0.19.7
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_setup.py:_flush():67] Configure stats pid to 64216
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_setup.py:_flush():67] Loading settings from /home/mallikarjun/.config/wandb/settings
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_setup.py:_flush():67] Loading settings from /home/mallikarjun/da6401_assignment1/wandb/settings
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_setup.py:_flush():67] Loading settings from environment variables
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:setup_run_log_directory():647] Logging user logs to /home/mallikarjun/da6401_assignment1/wandb/run-20250304_134505-hwqhbniq/logs/debug.log
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:setup_run_log_directory():648] Logging internal logs to /home/mallikarjun/da6401_assignment1/wandb/run-20250304_134505-hwqhbniq/logs/debug-internal.log
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():761] calling init triggers
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():766] wandb.init called with sweep_config: {'activation_function': 'sigmoid', 'batch_size': 16, 'hidden_layer_size': 128, 'learning_rate': 0.0001, 'num_epochs': 10, 'num_hidden_layers': 5, 'optimizer': 'nesterov', 'weight_decay': 0.5, 'weight_initialization': 'xavier'}
+config: {'_wandb': {}}
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():784] starting backend
+2025-03-04 13:45:05,253 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():788] sending inform_init request
+2025-03-04 13:45:05,254 INFO    Thread-9 (_run_job):64216 [backend.py:_multiprocessing_setup():97] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2025-03-04 13:45:05,254 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():803] backend started and connected
+2025-03-04 13:45:05,255 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_config_callback():1261] config_cb None None {'activation_function': 'sigmoid', 'batch_size': 16, 'hidden_layer_size': 128, 'learning_rate': 0.0001, 'num_epochs': 10, 'num_hidden_layers': 5, 'optimizer': 'nesterov', 'weight_decay': 0.5, 'weight_initialization': 'xavier'}
+2025-03-04 13:45:05,255 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():896] updated telemetry
+2025-03-04 13:45:05,258 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():920] communicating run to backend with 90.0 second timeout
+2025-03-04 13:45:05,750 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():995] starting run threads in backend
+2025-03-04 13:45:05,788 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_console_start():2377] atexit reg
+2025-03-04 13:45:05,788 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_redirect():2227] redirect: wrap_raw
+2025-03-04 13:45:05,788 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_redirect():2292] Wrapping output streams.
+2025-03-04 13:45:05,788 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_redirect():2317] Redirects installed.
+2025-03-04 13:45:05,789 INFO    Thread-9 (_run_job):64216 [wandb_init.py:init():1037] run started, returning control to user process
+2025-03-04 13:45:05,789 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_finish():2112] finishing run da24s009-indiam-institute-of-technology-madras/da6401_assignment1/hwqhbniq
+2025-03-04 13:45:05,789 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_atexit_cleanup():2342] got exitcode: 1
+2025-03-04 13:45:05,789 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_restore():2324] restore
+2025-03-04 13:45:05,789 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_restore():2330] restore done
+2025-03-04 13:45:06,761 WARNING MsgRouterThr:64216 [router.py:message_loop():77] message_loop has been closed
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/interface/router_sock.py", line 28, in _read_message
+    resp = self._sock_client.read_server_response(timeout=1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/lib/sock_client.py", line 285, in read_server_response
+    data = self._read_packet_bytes(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/lib/sock_client.py", line 270, in _read_packet_bytes
+    raise SockClientClosedError
+wandb.sdk.lib.sock_client.SockClientClosedError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/interface/router.py", line 70, in message_loop
+    msg = self._read_message()
+          ^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/interface/router_sock.py", line 30, in _read_message
+    raise MessageRouterClosedError from e
+wandb.sdk.interface.router.MessageRouterClosedError
+2025-03-04 13:45:06,763 INFO    MsgRouterThr:64216 [mailbox.py:close():115] Closing mailbox, abandoning 2 handles.
+2025-03-04 13:45:06,763 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_restore():2324] restore
+2025-03-04 13:45:06,763 INFO    Thread-9 (_run_job):64216 [wandb_run.py:_restore():2330] restore done
+2025-03-04 13:45:06,763 ERROR   Thread-9 (_run_job):64216 [wandb_run.py:_atexit_cleanup():2363] Problem finishing run
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/agents/pyagent.py", line 306, in _run_job
+    self._function()
+  File "/home/mallikarjun/da6401_assignment1/wandb_config.py", line 76, in train
+    optimizer = Nesterov(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Nesterov.__init__() got an unexpected keyword argument 'weight_decay'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 2354, in _atexit_cleanup
+    self._on_finish()
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/wandb_run.py", line 2611, in _on_finish
+    wait_with_progress(
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 23, in wait_with_progress
+    return wait_all_with_progress(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 69, in wait_all_with_progress
+    return _wait_handles(handle_list, timeout=progress_after)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/mailbox/wait_with_progress.py", line 109, in _wait_handles
+    results.append(handle.wait_or(timeout=remaining_timeout))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mallikarjun/da6401_assignment1/da_ass_1/lib/python3.12/site-packages/wandb/sdk/mailbox/handles.py", line 117, in wait_or
+    raise HandleAbandonedError()
+wandb.sdk.mailbox.handles.HandleAbandonedError

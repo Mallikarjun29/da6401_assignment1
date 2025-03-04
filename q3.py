@@ -1,15 +1,21 @@
 import numpy as np
 from keras.datasets import fashion_mnist
-from q2 import FFNN, FFActivation, FFReLU, FFSigmoid
 
-class Layer(FFNN):
-    def __init__(self, input_size, output_size):
-        super().__init__(input_size, output_size)
+class Layer:
+    def __init__(self, input_size, output_size, weight_init='random'):
+        self.input_size = input_size
+        self.output_size = output_size
+        self.weights = np.random.randn(input_size, output_size) * 0.01
+        self.biases = np.zeros((1, output_size))
         self.m_w = None
         self.v_w = None
         self.m_b = None
         self.v_b = None
         self.t = 0
+
+    def forward(self, input_data):
+        self.input = input_data
+        return np.dot(input_data, self.weights) + self.biases
 
     def backward(self, output_grad, optimizer):
         input_grad = np.dot(output_grad, self.weights.T)
@@ -21,15 +27,26 @@ class Layer(FFNN):
         
         return input_grad
 
-class Activation(FFActivation):
+class Activation:
+    def forward(self, input_data):
+        raise NotImplementedError
+
     def backward(self, output_grad):
         raise NotImplementedError
 
-class ReLU(FFReLU):
+class ReLU(Activation):
+    def forward(self, input_data):
+        self.input = input_data
+        return np.maximum(0, input_data)
+
     def backward(self, output_grad):
         return output_grad * (self.input > 0)
 
-class Sigmoid(FFSigmoid):
+class Sigmoid(Activation):
+    def forward(self, input_data):
+        self.output = 1 / (1 + np.exp(-input_data))
+        return self.output
+
     def backward(self, output_grad):
         return output_grad * self.output * (1 - self.output)
 
@@ -37,20 +54,25 @@ class Tanh(Activation):
     def forward(self, input_data):
         self.output = np.tanh(input_data)
         return self.output
+
     def backward(self, output_grad):
         return output_grad * (1 - self.output**2)
 
 class Softmax(Activation):
     def forward(self, input_data):
-        self.output = np.exp(input_data) / np.sum(np.exp(input_data), axis=1, keepdims=True)
+        exp_values = np.exp(input_data - np.max(input_data, axis=1, keepdims=True))
+        self.output = exp_values / np.sum(exp_values, axis=1, keepdims=True)
         return self.output
+
     def backward(self, output_grad):
         return output_grad
-class  CrossEntropyLoss:
+
+class CrossEntropyLoss:
     def forward(self, y_pred, y_true):
         self.y_pred = y_pred
         self.y_true = y_true
         return -np.sum(y_true * np.log(y_pred + 1e-8)) / len(y_true)
+
     def backward(self):
         return self.y_pred - self.y_true
 
@@ -59,17 +81,19 @@ class Optimizer:
         raise NotImplementedError
 
 class SGD(Optimizer):
-    def __init__(self, learning_rate=0.01):
+    def __init__(self, learning_rate=0.01, weight_decay=0):
         self.learning_rate = learning_rate
+        self.weight_decay = weight_decay
 
     def update(self, layer, weights_grad, biases_grad):
-        layer.weights -= self.learning_rate * weights_grad
+        layer.weights -= self.learning_rate * (weights_grad + self.weight_decay * layer.weights)
         layer.biases -= self.learning_rate * biases_grad
 
 class Momentum(Optimizer):
-    def __init__(self, learning_rate=0.01, momentum=0.9):
+    def __init__(self, learning_rate=0.01, momentum=0.9, weight_decay=0):
         self.learning_rate = learning_rate
         self.momentum = momentum
+        self.weight_decay = weight_decay
         self.velocity_w = None
         self.velocity_b = None
 
@@ -77,15 +101,16 @@ class Momentum(Optimizer):
         if self.velocity_w is None:
             self.velocity_w = np.zeros_like(layer.weights)
             self.velocity_b = np.zeros_like(layer.biases)
-        self.velocity_w = self.momentum * self.velocity_w - self.learning_rate * weights_grad
+        self.velocity_w = self.momentum * self.velocity_w - self.learning_rate * (weights_grad + self.weight_decay * layer.weights)
         self.velocity_b = self.momentum * self.velocity_b - self.learning_rate * biases_grad
         layer.weights += self.velocity_w
         layer.biases += self.velocity_b
 
 class Nesterov(Optimizer):
-    def __init__(self, learning_rate=0.01, momentum=0.9):
+    def __init__(self, learning_rate=0.01, momentum=0.9, weight_decay=0):
         self.learning_rate = learning_rate
         self.momentum = momentum
+        self.weight_decay = weight_decay
         self.velocity_w = None
         self.velocity_b = None
 
@@ -95,16 +120,17 @@ class Nesterov(Optimizer):
             self.velocity_b = np.zeros_like(layer.biases)
         prev_velocity_w = self.velocity_w
         prev_velocity_b = self.velocity_b
-        self.velocity_w = self.momentum * self.velocity_w - self.learning_rate * weights_grad
+        self.velocity_w = self.momentum * self.velocity_w - self.learning_rate * (weights_grad + self.weight_decay * layer.weights)
         self.velocity_b = self.momentum * self.velocity_b - self.learning_rate * biases_grad
         layer.weights += -self.momentum * prev_velocity_w + (1 + self.momentum) * self.velocity_w
         layer.biases += -self.momentum * prev_velocity_b + (1 + self.momentum) * self.velocity_b
 
 class RMSprop(Optimizer):
-    def __init__(self, learning_rate=0.001, beta=0.9, epsilon=1e-8):
+    def __init__(self, learning_rate=0.001, beta=0.9, epsilon=1e-8, weight_decay=0):
         self.learning_rate = learning_rate
         self.beta = beta
         self.epsilon = epsilon
+        self.weight_decay = weight_decay
         self.s_w = None
         self.s_b = None
 
@@ -114,15 +140,16 @@ class RMSprop(Optimizer):
             self.s_b = np.zeros_like(layer.biases)
         self.s_w = self.beta * self.s_w + (1 - self.beta) * weights_grad**2
         self.s_b = self.beta * self.s_b + (1 - self.beta) * biases_grad**2
-        layer.weights -= self.learning_rate * weights_grad / (np.sqrt(self.s_w) + self.epsilon)
+        layer.weights -= self.learning_rate * (weights_grad / (np.sqrt(self.s_w) + self.epsilon) + self.weight_decay * layer.weights)
         layer.biases -= self.learning_rate * biases_grad / (np.sqrt(self.s_b) + self.epsilon)
 
 class Adam(Optimizer):
-    def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8):
+    def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, weight_decay=0):
         self.learning_rate = learning_rate
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
+        self.weight_decay = weight_decay
 
     def update(self, layer, weights_grad, biases_grad):
         if layer.m_w is None:
@@ -139,16 +166,16 @@ class Adam(Optimizer):
         v_hat_w = layer.v_w / (1 - self.beta2**layer.t)
         m_hat_b = layer.m_b / (1 - self.beta1**layer.t)
         v_hat_b = layer.v_b / (1 - self.beta2**layer.t)
-        layer.weights -= self.learning_rate * m_hat_w / (np.sqrt(v_hat_w) + self.epsilon)
+        layer.weights -= self.learning_rate * (m_hat_w / (np.sqrt(v_hat_w) + self.epsilon) + self.weight_decay * layer.weights)
         layer.biases -= self.learning_rate * m_hat_b / (np.sqrt(v_hat_b) + self.epsilon)
 
 class Nadam(Optimizer):
-    def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8):
+    def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, weight_decay=0):
         self.learning_rate = learning_rate
         self.epsilon = epsilon
         self.beta1 = beta1
         self.beta2 = beta2
-        
+        self.weight_decay = weight_decay
 
     def update(self, layer, weights_grad, biases_grad):
         if layer.m_w is None:
@@ -165,7 +192,7 @@ class Nadam(Optimizer):
         v_hat_w = layer.v_w / (1 - self.beta2**layer.t)
         m_hat_b = layer.m_b / (1 - self.beta1**layer.t)
         v_hat_b = layer.v_b / (1 - self.beta2**layer.t)
-        layer.weights -= self.learning_rate * (self.beta1 * m_hat_w + (1 - self.beta1) * weights_grad / (1 - self.beta1**layer.t)) / (np.sqrt(v_hat_w) + self.epsilon)
+        layer.weights -= self.learning_rate * (self.beta1 * m_hat_w + (1 - self.beta1) * weights_grad / (1 - self.beta1**layer.t)) / (np.sqrt(v_hat_w) + self.epsilon) + self.weight_decay * layer.weights
         layer.biases -= self.learning_rate * (self.beta1 * m_hat_b + (1 - self.beta1) * biases_grad / (1 - self.beta1**layer.t)) / (np.sqrt(v_hat_b) + self.epsilon)
 
 class NeuralNetwork:
