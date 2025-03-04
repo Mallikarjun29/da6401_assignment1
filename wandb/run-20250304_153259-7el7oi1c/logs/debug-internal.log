@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:32:59.819837086Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153259-7el7oi1c/logs/debug-core.log"}
+{"time":"2025-03-04T15:32:59.928274079Z","level":"INFO","msg":"created new stream","id":"7el7oi1c"}
+{"time":"2025-03-04T15:32:59.928304085Z","level":"INFO","msg":"stream: started","id":"7el7oi1c"}
+{"time":"2025-03-04T15:32:59.928332523Z","level":"INFO","msg":"writer: Do: started","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:32:59.92838053Z","level":"INFO","msg":"sender: started","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:32:59.928603449Z","level":"INFO","msg":"handler: started","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:33:00.307901404Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:33:00.406561621Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:33:00.407297246Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:33:01.360998154Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run config","runtime_seconds":0.241900613}],"total_operations":1}}
+{"time":"2025-03-04T15:33:02.076807096Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:33:04.573195941Z","level":"INFO","msg":"stream: closing","id":"7el7oi1c"}
+{"time":"2025-03-04T15:33:04.573219005Z","level":"INFO","msg":"handler: closed","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:33:04.573225554Z","level":"INFO","msg":"writer: Close: closed","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:33:04.573256953Z","level":"INFO","msg":"sender: closed","stream_id":"7el7oi1c"}
+{"time":"2025-03-04T15:33:04.573276727Z","level":"INFO","msg":"stream: closed","id":"7el7oi1c"}

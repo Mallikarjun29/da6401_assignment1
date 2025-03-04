@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:37:53.283285212Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153753-4lkkwiml/logs/debug-core.log"}
+{"time":"2025-03-04T15:37:53.394019846Z","level":"INFO","msg":"created new stream","id":"4lkkwiml"}
+{"time":"2025-03-04T15:37:53.394057979Z","level":"INFO","msg":"stream: started","id":"4lkkwiml"}
+{"time":"2025-03-04T15:37:53.394115048Z","level":"INFO","msg":"handler: started","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:37:53.394138579Z","level":"INFO","msg":"sender: started","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:37:53.394468086Z","level":"INFO","msg":"writer: Do: started","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:37:53.750265323Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:38:24.86306662Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:38:24.863765136Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:38:25.806934044Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:38:25.866659261Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 5-9, summary","runtime_seconds":0.150903289}],"total_operations":1}}
+{"time":"2025-03-04T15:38:27.357083907Z","level":"INFO","msg":"stream: closing","id":"4lkkwiml"}
+{"time":"2025-03-04T15:38:27.357110128Z","level":"INFO","msg":"handler: closed","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:38:27.357117753Z","level":"INFO","msg":"writer: Close: closed","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:38:27.357134471Z","level":"INFO","msg":"sender: closed","stream_id":"4lkkwiml"}
+{"time":"2025-03-04T15:38:27.359501484Z","level":"INFO","msg":"stream: closed","id":"4lkkwiml"}

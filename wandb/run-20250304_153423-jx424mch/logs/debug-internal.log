@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:34:23.638456371Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153423-jx424mch/logs/debug-core.log"}
+{"time":"2025-03-04T15:34:23.750635302Z","level":"INFO","msg":"created new stream","id":"jx424mch"}
+{"time":"2025-03-04T15:34:23.750665735Z","level":"INFO","msg":"stream: started","id":"jx424mch"}
+{"time":"2025-03-04T15:34:23.75070831Z","level":"INFO","msg":"writer: Do: started","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:34:23.750730815Z","level":"INFO","msg":"handler: started","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:34:23.751035001Z","level":"INFO","msg":"sender: started","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:34:24.114731894Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:35:23.088099553Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:35:23.089027554Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:35:24.049126594Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading output.log","runtime_seconds":0.348158793},{"desc":"uploading config.yaml","runtime_seconds":0.049529649,"progress":"867B/867B"}],"total_operations":2}}
+{"time":"2025-03-04T15:35:24.324644887Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:35:25.632639293Z","level":"INFO","msg":"stream: closing","id":"jx424mch"}
+{"time":"2025-03-04T15:35:25.632651749Z","level":"INFO","msg":"handler: closed","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:35:25.632659969Z","level":"INFO","msg":"writer: Close: closed","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:35:25.632721402Z","level":"INFO","msg":"sender: closed","stream_id":"jx424mch"}
+{"time":"2025-03-04T15:35:25.632749497Z","level":"INFO","msg":"stream: closed","id":"jx424mch"}

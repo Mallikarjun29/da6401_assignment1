@@ -1,0 +1,31 @@
+{
+  "os":  "Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python":  "CPython 3.12.3",
+  "startedAt":  "2025-03-04T15:38:48.856663Z",
+  "program":  "/home/mallikarjun/da6401_assignment1/wandb_config.py",
+  "codePath":  "wandb_config.py",
+  "git":  {
+    "remote":  "https://github.com/Mallikarjun29/da6401_assignment1.git",
+    "commit":  "f19131c5befbfa908c85fd2f59855303d5f6f70d"
+  },
+  "email":  "da24s009@smail.iitm.ac.in",
+  "root":  "/home/mallikarjun/da6401_assignment1",
+  "host":  "DESKTOP-POAF3KG",
+  "executable":  "/home/mallikarjun/da6401_assignment1/da_ass_1/bin/python",
+  "codePathLocal":  "wandb_config.py",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "disk":  {
+    "/":  {
+      "total":  "1081101176832",
+      "used":  "10475819008"
+    }
+  },
+  "memory":  {
+    "total":  "8167538688"
+  },
+  "cpu":  {
+    "count":  6,
+    "countLogical":  12
+  }
+}

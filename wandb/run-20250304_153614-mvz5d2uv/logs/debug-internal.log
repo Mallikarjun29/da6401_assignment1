@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:36:14.153435246Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153614-mvz5d2uv/logs/debug-core.log"}
+{"time":"2025-03-04T15:36:14.262638958Z","level":"INFO","msg":"created new stream","id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:14.262667652Z","level":"INFO","msg":"stream: started","id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:14.262697773Z","level":"INFO","msg":"writer: Do: started","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:14.262722747Z","level":"INFO","msg":"handler: started","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:14.262789219Z","level":"INFO","msg":"sender: started","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:14.58080539Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:36:18.135595374Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:36:18.136136418Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:36:19.11072432Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:36:19.136421394Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 0-4, summary","runtime_seconds":0.025593304}],"total_operations":1}}
+{"time":"2025-03-04T15:36:20.429390571Z","level":"INFO","msg":"stream: closing","id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:20.429423372Z","level":"INFO","msg":"handler: closed","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:20.429433044Z","level":"INFO","msg":"writer: Close: closed","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:20.429466653Z","level":"INFO","msg":"sender: closed","stream_id":"mvz5d2uv"}
+{"time":"2025-03-04T15:36:20.429498739Z","level":"INFO","msg":"stream: closed","id":"mvz5d2uv"}

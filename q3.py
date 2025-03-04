@@ -5,7 +5,10 @@ class Layer:
     def __init__(self, input_size, output_size, weight_init='random'):
         self.input_size = input_size
         self.output_size = output_size
-        self.weights = np.random.randn(input_size, output_size) * 0.01
+        if weight_init == 'random':
+            self.weights = np.random.randn(input_size, output_size) * 0.01
+        elif weight_init == 'xavier':
+            self.weights = np.random.randn(input_size, output_size) * np.sqrt(2 / (input_size + output_size))
         self.biases = np.zeros((1, output_size))
         self.m_w = None
         self.v_w = None
@@ -14,8 +17,8 @@ class Layer:
         self.t = 0
 
     def forward(self, input_data):
-        self.input = input_data
-        return np.dot(input_data, self.weights) + self.biases
+        self.input = input_data.reshape(-1, self.input_size)
+        return np.dot(self.input, self.weights) + self.biases
 
     def backward(self, output_grad, optimizer):
         input_grad = np.dot(output_grad, self.weights.T)
@@ -196,9 +199,9 @@ class Nadam(Optimizer):
         layer.biases -= self.learning_rate * (self.beta1 * m_hat_b + (1 - self.beta1) * biases_grad / (1 - self.beta1**layer.t)) / (np.sqrt(v_hat_b) + self.epsilon)
 
 class NeuralNetwork:
-    def __init__(self, layers, optimizer):
+    def __init__(self, layers, optimizer_class, optimizer_params):
         self.layers = layers
-        self.optimizer = optimizer
+        self.optimizers = [optimizer_class(**optimizer_params) for _ in layers if isinstance(_, Layer)]
 
     def forward(self, x):
         for layer in self.layers:
@@ -206,15 +209,15 @@ class NeuralNetwork:
         return x
 
     def backward(self, output_grad):
-        for layer in reversed(self.layers):
+        for layer, optimizer in zip(reversed(self.layers), reversed(self.optimizers)):
             if isinstance(layer, Layer):
-                output_grad = layer.backward(output_grad, self.optimizer)
+                output_grad = layer.backward(output_grad, optimizer)
             else:
                 output_grad = layer.backward(output_grad)
 
 def main():
-    # Initialize the optimizer
-    optimizer = Adam(learning_rate=0.001)
+    # Initialize the optimizer parameters
+    optimizer_params = {'learning_rate': 0.001}
 
     # Initialize the network layers
     layer1 = Layer(784, 128)
@@ -222,8 +225,10 @@ def main():
     layer2 = Layer(128, 10)
     activation2 = Softmax()
 
-    # Create the neural network with the optimizer
-    network = NeuralNetwork([layer1, activation1, layer2, activation2], optimizer)
+    # Create the neural network with the optimizer class and parameters
+    network = NeuralNetwork([layer1, activation1, layer2, activation2], Adam, optimizer_params)
+
+    loss = CrossEntropyLoss()
 
     # Load the dataset
     (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -233,10 +238,12 @@ def main():
     x_test = x_test.reshape(x_test.shape[0], -1) / 255.0
 
     # Forward pass
-    output = network.forward(x_train[0])
-
+    output = network.forward(x_train[0].reshape(1, -1))
+    
     # Backward pass
-    output_grad = output - y_train[0]  # Assuming y_train is one-hot encoded
+    y_train_one_hot = np.eye(10)[y_train[0]].reshape(1, -1)  # One-hot encode the label
+    loss_val = loss.forward(output, y_train_one_hot)
+    output_grad = loss.backward()
     network.backward(output_grad)
 
     print("output", output)

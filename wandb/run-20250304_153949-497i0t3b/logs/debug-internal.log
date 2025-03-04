@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:39:49.671486382Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153949-497i0t3b/logs/debug-core.log"}
+{"time":"2025-03-04T15:39:49.781969071Z","level":"INFO","msg":"created new stream","id":"497i0t3b"}
+{"time":"2025-03-04T15:39:49.781998221Z","level":"INFO","msg":"stream: started","id":"497i0t3b"}
+{"time":"2025-03-04T15:39:49.782035216Z","level":"INFO","msg":"writer: Do: started","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:49.782119872Z","level":"INFO","msg":"handler: started","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:49.782351125Z","level":"INFO","msg":"sender: started","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:50.162746791Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:39:50.250698122Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:39:50.251518198Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:39:51.210860075Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading data","runtime_seconds":0.358217706},{"desc":"updating run config","runtime_seconds":0.336302924},{"desc":"uploading output.log","runtime_seconds":0.032807868},{"desc":"uploading wandb-summary.json","runtime_seconds":0.03279519,"progress":"24B/24B"}],"total_operations":4}}
+{"time":"2025-03-04T15:39:51.989748863Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:39:53.285038862Z","level":"INFO","msg":"stream: closing","id":"497i0t3b"}
+{"time":"2025-03-04T15:39:53.285053441Z","level":"INFO","msg":"handler: closed","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:53.285061639Z","level":"INFO","msg":"writer: Close: closed","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:53.285108608Z","level":"INFO","msg":"sender: closed","stream_id":"497i0t3b"}
+{"time":"2025-03-04T15:39:53.285119513Z","level":"INFO","msg":"stream: closed","id":"497i0t3b"}

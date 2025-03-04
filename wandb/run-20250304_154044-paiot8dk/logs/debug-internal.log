@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:40:44.338553962Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_154044-paiot8dk/logs/debug-core.log"}
+{"time":"2025-03-04T15:40:44.447073514Z","level":"INFO","msg":"created new stream","id":"paiot8dk"}
+{"time":"2025-03-04T15:40:44.447101527Z","level":"INFO","msg":"stream: started","id":"paiot8dk"}
+{"time":"2025-03-04T15:40:44.447152056Z","level":"INFO","msg":"handler: started","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:44.447370199Z","level":"INFO","msg":"writer: Do: started","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:44.447429821Z","level":"INFO","msg":"sender: started","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:44.766658938Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:40:44.86022585Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:40:44.860796239Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:40:45.808761307Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run config","runtime_seconds":0.293274031}],"total_operations":1}}
+{"time":"2025-03-04T15:40:46.444694513Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:40:47.760746562Z","level":"INFO","msg":"stream: closing","id":"paiot8dk"}
+{"time":"2025-03-04T15:40:47.760771125Z","level":"INFO","msg":"handler: closed","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:47.760778539Z","level":"INFO","msg":"writer: Close: closed","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:47.760795928Z","level":"INFO","msg":"sender: closed","stream_id":"paiot8dk"}
+{"time":"2025-03-04T15:40:47.760828346Z","level":"INFO","msg":"stream: closed","id":"paiot8dk"}

@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:33:06.415102179Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153306-85zpteba/logs/debug-core.log"}
+{"time":"2025-03-04T15:33:06.526333644Z","level":"INFO","msg":"created new stream","id":"85zpteba"}
+{"time":"2025-03-04T15:33:06.526385118Z","level":"INFO","msg":"stream: started","id":"85zpteba"}
+{"time":"2025-03-04T15:33:06.526423331Z","level":"INFO","msg":"writer: Do: started","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:06.526438978Z","level":"INFO","msg":"sender: started","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:06.526482352Z","level":"INFO","msg":"handler: started","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:07.010862466Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:33:07.102589773Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:33:07.103136093Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:33:08.055120861Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run config","runtime_seconds":0.287674419}],"total_operations":1}}
+{"time":"2025-03-04T15:33:08.697705091Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:33:10.005079619Z","level":"INFO","msg":"stream: closing","id":"85zpteba"}
+{"time":"2025-03-04T15:33:10.005104794Z","level":"INFO","msg":"handler: closed","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:10.005113518Z","level":"INFO","msg":"writer: Close: closed","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:10.005133256Z","level":"INFO","msg":"sender: closed","stream_id":"85zpteba"}
+{"time":"2025-03-04T15:33:10.005182385Z","level":"INFO","msg":"stream: closed","id":"85zpteba"}

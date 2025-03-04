@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:47:28.815769593Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_154728-nx6sbrlw/logs/debug-core.log"}
+{"time":"2025-03-04T15:47:28.927316286Z","level":"INFO","msg":"created new stream","id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:28.927344595Z","level":"INFO","msg":"stream: started","id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:28.927379501Z","level":"INFO","msg":"writer: Do: started","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:28.927402096Z","level":"INFO","msg":"handler: started","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:28.927457462Z","level":"INFO","msg":"sender: started","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:29.5498339Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:47:29.641201326Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:47:29.641707453Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:47:30.59479656Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"updating run config","runtime_seconds":0.300549935}],"total_operations":1}}
+{"time":"2025-03-04T15:47:31.221617605Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:47:32.538722655Z","level":"INFO","msg":"stream: closing","id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:32.538768932Z","level":"INFO","msg":"handler: closed","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:32.538783265Z","level":"INFO","msg":"writer: Close: closed","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:32.538863683Z","level":"INFO","msg":"sender: closed","stream_id":"nx6sbrlw"}
+{"time":"2025-03-04T15:47:32.53890282Z","level":"INFO","msg":"stream: closed","id":"nx6sbrlw"}

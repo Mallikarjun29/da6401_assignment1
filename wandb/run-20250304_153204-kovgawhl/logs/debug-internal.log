@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:32:04.562847295Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153204-kovgawhl/logs/debug-core.log"}
+{"time":"2025-03-04T15:32:04.675318473Z","level":"INFO","msg":"created new stream","id":"kovgawhl"}
+{"time":"2025-03-04T15:32:04.675353289Z","level":"INFO","msg":"stream: started","id":"kovgawhl"}
+{"time":"2025-03-04T15:32:04.675390352Z","level":"INFO","msg":"writer: Do: started","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:04.675402237Z","level":"INFO","msg":"sender: started","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:04.675430942Z","level":"INFO","msg":"handler: started","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:05.0624228Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:32:11.90064376Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:32:11.901057187Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:32:12.881484372Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:32:12.901588345Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 1-9, summary","runtime_seconds":0.020013321}],"total_operations":1}}
+{"time":"2025-03-04T15:32:14.401700131Z","level":"INFO","msg":"stream: closing","id":"kovgawhl"}
+{"time":"2025-03-04T15:32:14.401759245Z","level":"INFO","msg":"handler: closed","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:14.401775899Z","level":"INFO","msg":"writer: Close: closed","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:14.401887668Z","level":"INFO","msg":"sender: closed","stream_id":"kovgawhl"}
+{"time":"2025-03-04T15:32:14.401912314Z","level":"INFO","msg":"stream: closed","id":"kovgawhl"}

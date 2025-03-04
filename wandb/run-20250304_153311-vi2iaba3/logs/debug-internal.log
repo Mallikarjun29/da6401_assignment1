@@ -1,0 +1,16 @@
+{"time":"2025-03-04T15:33:11.823784469Z","level":"INFO","msg":"stream: starting","core version":"0.19.7","symlink path":"/home/mallikarjun/da6401_assignment1/wandb/run-20250304_153311-vi2iaba3/logs/debug-core.log"}
+{"time":"2025-03-04T15:33:11.934784614Z","level":"INFO","msg":"created new stream","id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:11.934816537Z","level":"INFO","msg":"stream: started","id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:11.934857217Z","level":"INFO","msg":"writer: Do: started","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:11.934890734Z","level":"INFO","msg":"handler: started","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:11.935723837Z","level":"INFO","msg":"sender: started","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:12.288894077Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-04T15:33:25.115816908Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-04T15:33:25.116356737Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-04T15:33:26.058413091Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-03-04T15:33:26.118044277Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 0-4, summary","runtime_seconds":0.059372276}],"total_operations":1}}
+{"time":"2025-03-04T15:33:27.561293887Z","level":"INFO","msg":"stream: closing","id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:27.561414664Z","level":"INFO","msg":"handler: closed","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:27.561438828Z","level":"INFO","msg":"writer: Close: closed","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:27.561522231Z","level":"INFO","msg":"sender: closed","stream_id":"vi2iaba3"}
+{"time":"2025-03-04T15:33:27.561595239Z","level":"INFO","msg":"stream: closed","id":"vi2iaba3"}
