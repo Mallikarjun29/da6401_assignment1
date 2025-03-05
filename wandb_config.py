@@ -3,8 +3,14 @@ import numpy as np
 from keras.datasets import fashion_mnist
 from sklearn.model_selection import train_test_split
 from q3 import Layer, NeuralNetwork, Activation, ReLU, Tanh, Sigmoid, Softmax, CrossEntropyLoss, SGD, Momentum, RMSprop, Adam, Nadam, Nesterov
+
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]
+
+def calculate_accuracy(y_pred, y_true):
+    predictions = np.argmax(y_pred, axis=1)
+    labels = np.argmax(y_true, axis=1)
+    return np.mean(predictions == labels)
 
 # Initialize wandb
 wandb.login()
@@ -21,7 +27,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 
 # Define the sweep configuration
 sweep_config = {
-    'method': 'random',
+    'method': 'bayes',
     'metric': {
         'name': 'val_loss',
         'goal': 'minimize'
@@ -57,7 +63,7 @@ sweep_config = {
     }
 }
 
-sweep_id = wandb.sweep(sweep_config, project="da6401_assignment1")
+sweep_id = wandb.sweep(sweep_config, project="da6401_assignment_1")
 
 # Define the training function
 def train():
@@ -67,19 +73,20 @@ def train():
     # Get hyperparameters from wandb config
     config = wandb.config
 
-    # Define the optimizer
+    # Define the optimizer class and parameters
+    optimizer_params = {'learning_rate': config.learning_rate, 'weight_decay': config.weight_decay}
     if config.optimizer == 'sgd':
-        optimizer = SGD(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = SGD
     elif config.optimizer == 'momentum':
-        optimizer = Momentum(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = Momentum
     elif config.optimizer == 'nesterov':
-        optimizer = Nesterov(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = Nesterov
     elif config.optimizer == 'rmsprop':
-        optimizer = RMSprop(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = RMSprop
     elif config.optimizer == 'adam':
-        optimizer = Adam(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = Adam
     elif config.optimizer == 'nadam':
-        optimizer = Nadam(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+        optimizer_class = Nadam
 
     # Define the activation function
     if config.activation_function == 'sigmoid':
@@ -105,7 +112,7 @@ def train():
     layers.append(Layer(input_size, 10, weight_init=weight_init))
     layers.append(Softmax())
 
-    model = NeuralNetwork(layers, optimizer)
+    model = NeuralNetwork(layers, optimizer_class, optimizer_params)
 
     # Define the loss
     loss = CrossEntropyLoss()
@@ -129,13 +136,29 @@ def train():
             loss_grad = loss.backward()
             model.backward(loss_grad)
 
-        # Compute the validation loss
+        # Compute the training accuracy
+        y_pred_train = model.forward(X_train)
+        y_train_one_hot = one_hot_encode(y_train, num_classes)
+        train_accuracy = calculate_accuracy(y_pred_train, y_train_one_hot)
+
+        # Compute the validation loss and accuracy
         y_pred_val = model.forward(X_val)
         y_val_one_hot = one_hot_encode(y_val, num_classes)
         val_loss = loss.forward(y_pred_val, y_val_one_hot)
+        val_accuracy = calculate_accuracy(y_pred_val, y_val_one_hot)
 
-        # Log the loss
-        wandb.log({"train_loss": loss_val, "val_loss": val_loss})
+        # Log the metrics
+        wandb.log({
+            "epoch": epoch + 1,
+            "train_loss": loss_val,
+            "train_accuracy": train_accuracy,
+            "val_loss": val_loss,
+            "val_accuracy": val_accuracy
+        })
+
+    # Set the name of the run
+    run_name = f"hl_{config.num_hidden_layers}_bs_{config.batch_size}_ac_{config.activation_function}"
+    wandb.run.name = run_name
 
 # Run the sweep
-wandb.agent(sweep_id, train)
+wandb.agent(sweep_id, train, count= 1000)
