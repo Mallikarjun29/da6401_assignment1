@@ -1,13 +1,17 @@
 import wandb
 import numpy as np
 from keras.datasets import fashion_mnist
-from q3 import Layer, NeuralNetwork, Activation, ReLU, Tanh, Sigmoid, Softmax, CrossEntropyLoss, SGD, Momentum, RMSprop, Adam, Nesterov
+from NeuralNetwork import NeuralNetwork
+from Layer import Layer
+from Activation import ReLU, Softmax
+from Optimizer import SGD
+from Loss import CrossEntropyLoss
 
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]
 
 # Initialize wandb
-wandb.login()
+# wandb.login()
 
 # Load the Fashion MNIST dataset
 (X_train, y_train), (X_val, y_val) = fashion_mnist.load_data()
@@ -20,8 +24,10 @@ X_val = X_val.reshape(X_val.shape[0], -1) / 255.0
 loss = CrossEntropyLoss()
 
 # Define the optimizer
-optimizer = SGD(learning_rate=0.01)
-
+optimizer = SGD
+optimizer_params = {
+    "learning_rate": 0.01
+}
 # Define the model
 model = NeuralNetwork([
     Layer(784, 128),
@@ -30,10 +36,10 @@ model = NeuralNetwork([
     ReLU(),
     Layer(64, 10),
     Softmax()
-], optimizer)
+], optimizer, optimizer_params)
 
 # Initialize the wandb run
-wandb.init(project="da6401_assignment1", name="wandb_trial2")
+# wandb.init(project="da6401_assignment1", name="wandb_trial2")
 
 def train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=32):
     num_classes = 10
@@ -58,9 +64,9 @@ def train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10,
         y_pred_val = model.forward(X_val)
         y_val_one_hot = one_hot_encode(y_val, num_classes)
         val_loss = loss.forward(y_pred_val, y_val_one_hot)
-
+        print(f"Epoch {epoch+1}/{num_epochs}, loss={loss_val}, val_loss={val_loss}")
         # Log the loss
-        wandb.log({"train_loss": loss_val, "val_loss": val_loss})
+        # wandb.log({"train_loss": loss_val, "val_loss": val_loss})
 
 # Train the model
 train(model, loss, optimizer, X_train, y_train, X_val, y_val, num_epochs=10, batch_size=16)
