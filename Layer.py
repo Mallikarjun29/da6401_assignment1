@@ -17,14 +17,14 @@ class Layer:
 
     def forward(self, input_data):
         self.input = input_data.reshape(-1, self.input_size)
-        return np.dot(self.input, self.weights) + self.biases
+        return np.dot(self.input, self.weights) + self.biases # Wx + b
 
     def backward(self, output_grad, optimizer):
-        input_grad = np.dot(output_grad, self.weights.T)
-        weights_grad = np.dot(self.input.T, output_grad)
-        biases_grad = np.sum(output_grad, axis=0, keepdims=True)
+        input_grad = np.dot(output_grad, self.weights.T) # dL/dx = dL/dy * W^T
+        weights_grad = np.dot(self.input.T, output_grad) # dL/dW = x^T * dL/dy
+        biases_grad = np.sum(output_grad, axis=0, keepdims=True) # dL/db = sum(dL/dy)
         
         # Update parameters using the optimizer
-        optimizer.update(self, weights_grad, biases_grad)
+        optimizer.update(self, weights_grad, biases_grad) # Update the weights and biases
         
         return input_grad

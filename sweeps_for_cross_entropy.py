@@ -2,7 +2,11 @@ import wandb
 import numpy as np
 from keras.datasets import fashion_mnist
 from sklearn.model_selection import train_test_split
-from q3 import Layer, NeuralNetwork, Activation, ReLU, Tanh, Sigmoid, Softmax, CrossEntropyLoss, SGD, Momentum, RMSprop, Adam, Nadam, Nesterov
+from Layer import Layer
+from Activation import ReLU, Softmax, Sigmoid, Tanh
+from Optimizer import SGD, Momentum, Nesterov, RMSprop, Adam, Nadam
+from Loss import CrossEntropyLoss
+from NeuralNetwork import NeuralNetwork
 
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]
@@ -157,8 +161,8 @@ def train():
         })
 
     # Set the name of the run
-    run_name = f"hl_{config.num_hidden_layers}_bs_{config.batch_size}_ac_{config.activation_function}"
+    run_name = f"hl_{config.num_hidden_layers}_bs_{config.batch_size}_ac_{config.activation_function}_opt_{config.optimizer}_lr_{config.learning_rate}_wd_{config.weight_decay}_wi_{config.weight_initialization}"
     wandb.run.name = run_name
 
 # Run the sweep
-wandb.agent(sweep_id, train, count= 1000)
+wandb.agent(sweep_id, train, count= 100)
