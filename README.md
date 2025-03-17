@@ -2,6 +2,12 @@
 
 This repository contains a custom implementation of a feedforward neural network with various optimization algorithms and loss functions.
 
+## Githuib repo link
+https://github.com/Mallikarjun29/da6401_assignment1.git
+
+## Wandb link
+[Wandb link](https://wandb.ai/da24s009-indiam-institute-of-technology-madras/sweep_experiment_final/reports/da24s009-s-Assignment-1--VmlldzoxMTgzMzc0Nw?accessToken=ebnkhxglng1r6va8v12rm2t43nxjc2pm0dmd2jbhe7vte0iwglk9ucu9sghe4xrb)
+
 ## Setup
 
 ### Requirements
