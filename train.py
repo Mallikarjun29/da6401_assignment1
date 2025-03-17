@@ -1,168 +1,217 @@
+import argparse
 import wandb
 import numpy as np
-from keras.datasets import fashion_mnist
-from sklearn.model_selection import train_test_split
+from keras.datasets import fashion_mnist, mnist
 from Layer import Layer
 from Activation import ReLU, Softmax, Sigmoid, Tanh
 from Optimizer import SGD, Momentum, Nesterov, RMSprop, Adam, Nadam
-from Loss import CrossEntropyLoss
+from Loss import CrossEntropyLoss, MSELoss
 from NeuralNetwork import NeuralNetwork
 
-def one_hot_encode(y, num_classes):
-    return np.eye(num_classes)[y]
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description='Train a neural network with specified parameters')
+    
+    # Wandb arguments
+    parser.add_argument('-wp', '--wandb_project', type=str, default='myprojectname',
+                        help='Project name for Weights & Biases dashboard')
+    parser.add_argument('-we', '--wandb_entity', type=str, default='myname',
+                        help='Entity name for Weights & Biases dashboard')
+    
+    # Dataset and training parameters
+    parser.add_argument('-d', '--dataset', type=str, default='fashion_mnist',
+                        choices=['mnist', 'fashion_mnist'],
+                        help='Dataset to use for training')
+    parser.add_argument('-e', '--epochs', type=int, default=1,
+                        help='Number of epochs to train')
+    parser.add_argument('-b', '--batch_size', type=int, default=4,
+                        help='Batch size for training')
+    
+    # Model architecture
+    parser.add_argument('-nhl', '--num_layers', type=int, default=1,
+                        help='Number of hidden layers')
+    parser.add_argument('-sz', '--hidden_size', type=int, default=4,
+                        help='Number of neurons in hidden layers')
+    parser.add_argument('-a', '--activation', type=str, default='sigmoid',
+                        choices=['identity', 'sigmoid', 'tanh', 'ReLU'],
+                        help='Activation function')
+    
+    # Optimization parameters
+    parser.add_argument('-l', '--loss', type=str, default='cross_entropy',
+                        choices=['mean_squared_error', 'cross_entropy'],
+                        help='Loss function')
+    parser.add_argument('-o', '--optimizer', type=str, default='sgd',
+                        choices=['sgd', 'momentum', 'nag', 'rmsprop', 'adam', 'nadam'],
+                        help='Optimizer')
+    parser.add_argument('-lr', '--learning_rate', type=float, default=0.1,
+                        help='Learning rate')
+    parser.add_argument('-m', '--momentum', type=float, default=0.5,
+                        help='Momentum coefficient')
+    parser.add_argument('-beta', '--beta', type=float, default=0.5,
+                        help='Beta parameter for RMSprop')
+    parser.add_argument('-beta1', '--beta1', type=float, default=0.5,
+                        help='Beta1 parameter for Adam/Nadam')
+    parser.add_argument('-beta2', '--beta2', type=float, default=0.5,
+                        help='Beta2 parameter for Adam/Nadam')
+    parser.add_argument('-eps', '--epsilon', type=float, default=1e-6,
+                        help='Epsilon parameter for optimizers')
+    parser.add_argument('-w_d', '--weight_decay', type=float, default=0.0,
+                        help='Weight decay parameter')
+    parser.add_argument('-w_i', '--weight_init', type=str, default='random',
+                        choices=['random', 'Xavier'],
+                        help='Weight initialization method')
+    
+    return parser.parse_args()
 
-def calculate_accuracy(y_pred, y_true):
-    predictions = np.argmax(y_pred, axis=1)
-    labels = np.argmax(y_true, axis=1)
-    return np.mean(predictions == labels)
+def load_data(dataset_name):
+    """Load and preprocess dataset."""
+    if dataset_name == 'mnist':
+        (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    else:
+        (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
+    
+    # Reshape and normalize
+    X_train = X_train.reshape(X_train.shape[0], -1) / 255.0
+    X_test = X_test.reshape(X_test.shape[0], -1) / 255.0
+    
+    # Split training data into train and validation
+    val_size = 5000
+    X_val = X_train[-val_size:]
+    y_val = y_train[-val_size:]
+    X_train = X_train[:-val_size]
+    y_train = y_train[:-val_size]
+    
+    return (X_train, y_train), (X_val, y_val), (X_test, y_test)
 
-# Initialize wandb
-wandb.login()
-
-# Load the Fashion MNIST dataset
-(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
-
-# Preprocess the data
-X_train = X_train.reshape(X_train.shape[0], -1) / 255.0
-X_test = X_test.reshape(X_test.shape[0], -1) / 255.0
-
-# Split the training data into training and validation sets
-X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1, random_state=42)
-
-# Define the sweep configuration
-sweep_config = {
-    'method': 'bayes',
-    'metric': {
-        'name': 'val_loss',
-        'goal': 'minimize'
-    },
-    'parameters': {
-        'num_epochs': {
-            'values': [5, 10]
-        },
-        'num_hidden_layers': {
-            'values': [3, 4, 5]
-        },
-        'hidden_layer_size': {
-            'values': [32, 64, 128]
-        },
-        'weight_decay': {
-            'values': [0, 0.0005, 0.5]
-        },
-        'learning_rate': {
-            'values': [1e-3, 1e-4]
-        },
-        'optimizer': {
-            'values': ['sgd', 'momentum', 'nesterov', 'rmsprop', 'adam', 'nadam']
-        },
-        'batch_size': {
-            'values': [16, 32, 64]
-        },
-        'weight_initialization': {
-            'values': ['random', 'xavier']
-        },
-        'activation_function': {
-            'values': ['sigmoid', 'tanh', 'relu']
-        }
+def get_activation(name):
+    """Get activation function by name."""
+    activations = {
+        'identity': lambda: None,
+        'sigmoid': Sigmoid,
+        'tanh': Tanh,
+        'ReLU': ReLU
     }
-}
+    return activations[name]()
 
-sweep_id = wandb.sweep(sweep_config, project="da6401_assignment_1")
+def get_optimizer(name, args):
+    """Get optimizer instance by name with appropriate parameters."""
+    optimizers = {
+        'sgd': lambda: SGD(args.learning_rate, args.weight_decay),
+        'momentum': lambda: Momentum(args.learning_rate, args.momentum, args.weight_decay),
+        'nag': lambda: Nesterov(args.learning_rate, args.momentum, args.weight_decay),
+        'rmsprop': lambda: RMSprop(args.learning_rate, args.beta, args.epsilon, args.weight_decay),
+        'adam': lambda: Adam(args.learning_rate, args.beta1, args.beta2, args.epsilon, args.weight_decay),
+        'nadam': lambda: Nadam(args.learning_rate, args.beta1, args.beta2, args.epsilon, args.weight_decay)
+    }
+    return optimizers[name]()
 
-# Define the training function
-def train():
-    # Initialize wandb run
-    wandb.init()
+def get_loss(name):
+    """Get loss function by name."""
+    losses = {
+        'mean_squared_error': MSELoss,
+        'cross_entropy': CrossEntropyLoss
+    }
+    return losses[name]()
 
-    # Get hyperparameters from wandb config
-    config = wandb.config
-
-    # Define the optimizer class and parameters
-    optimizer_params = {'learning_rate': config.learning_rate, 'weight_decay': config.weight_decay}
-    if config.optimizer == 'sgd':
-        optimizer_class = SGD
-    elif config.optimizer == 'momentum':
-        optimizer_class = Momentum
-    elif config.optimizer == 'nesterov':
-        optimizer_class = Nesterov
-    elif config.optimizer == 'rmsprop':
-        optimizer_class = RMSprop
-    elif config.optimizer == 'adam':
-        optimizer_class = Adam
-    elif config.optimizer == 'nadam':
-        optimizer_class = Nadam
-
-    # Define the activation function
-    if config.activation_function == 'sigmoid':
-        activation = Sigmoid()
-    elif config.activation_function == 'tanh':
-        activation = Tanh()
-    elif config.activation_function == 'relu':
-        activation = ReLU()
-
-    # Define the weight initialization
-    if config.weight_initialization == 'random':
-        weight_init = 'random'
-    elif config.weight_initialization == 'xavier':
-        weight_init = 'xavier'
-
-    # Define the model
+def create_model(args, input_size=784, num_classes=10):
+    """Create neural network model with specified architecture."""
     layers = []
-    input_size = 784
-    for _ in range(config.num_hidden_layers):
-        layers.append(Layer(input_size, config.hidden_layer_size, weight_init=weight_init))
-        layers.append(activation)
-        input_size = config.hidden_layer_size
-    layers.append(Layer(input_size, 10, weight_init=weight_init))
+    
+    # Add input layer
+    prev_size = input_size
+    
+    # Add hidden layers
+    for _ in range(args.num_layers):
+        layers.append(Layer(prev_size, args.hidden_size, args.weight_init))
+        if args.activation != 'identity':
+            layers.append(get_activation(args.activation))
+        prev_size = args.hidden_size
+    
+    # Add output layer
+    layers.append(Layer(prev_size, num_classes, args.weight_init))
     layers.append(Softmax())
+    
+    # Create optimizer
+    optimizer = get_optimizer(args.optimizer, args)
+    
+    return NeuralNetwork(layers, optimizer.__class__, {
+        'learning_rate': args.learning_rate,
+        'weight_decay': args.weight_decay
+    })
 
-    model = NeuralNetwork(layers, optimizer_class, optimizer_params)
-
-    # Define the loss
-    loss = CrossEntropyLoss()
-
-    # Training loop
-    num_classes = 10
-    for epoch in range(config.num_epochs):
-        for i in range(0, X_train.shape[0], config.batch_size):
-            # Get the next batch of data
-            X_batch = X_train[i:i+config.batch_size]
-            y_batch = y_train[i:i+config.batch_size]
-
-            # One-hot encode the labels
-            y_batch_one_hot = one_hot_encode(y_batch, num_classes)
-
+def train(model, loss_fn, data, args):
+    """Train the model and log metrics to wandb."""
+    (X_train, y_train), (X_val, y_val), (X_test, y_test) = data
+    
+    for epoch in range(args.epochs):
+        # Training loop
+        train_loss = 0
+        num_batches = 0
+        
+        for i in range(0, len(X_train), args.batch_size):
+            batch_x = X_train[i:i + args.batch_size]
+            batch_y = y_train[i:i + args.batch_size]
+            
             # Forward pass
-            y_pred = model.forward(X_batch)
-            loss_val = loss.forward(y_pred, y_batch_one_hot)
-
+            pred = model.forward(batch_x)
+            loss = loss_fn.forward(pred, np.eye(10)[batch_y])
+            
             # Backward pass
-            loss_grad = loss.backward()
-            model.backward(loss_grad)
-
-        # Compute the training accuracy
-        y_pred_train = model.forward(X_train)
-        y_train_one_hot = one_hot_encode(y_train, num_classes)
-        train_accuracy = calculate_accuracy(y_pred_train, y_train_one_hot)
-
-        # Compute the validation loss and accuracy
-        y_pred_val = model.forward(X_val)
-        y_val_one_hot = one_hot_encode(y_val, num_classes)
-        val_loss = loss.forward(y_pred_val, y_val_one_hot)
-        val_accuracy = calculate_accuracy(y_pred_val, y_val_one_hot)
-
-        # Log the metrics
+            grad = loss_fn.backward()
+            model.backward(grad)
+            
+            train_loss += loss
+            num_batches += 1
+        
+        # Compute validation metrics
+        val_pred = model.forward(X_val)
+        val_loss = loss_fn.forward(val_pred, np.eye(10)[y_val])
+        val_acc = np.mean(np.argmax(val_pred, axis=1) == y_val)
+        
+        # Log metrics
         wandb.log({
-            "epoch": epoch + 1,
-            "train_loss": loss_val,
-            "train_accuracy": train_accuracy,
-            "val_loss": val_loss,
-            "val_accuracy": val_accuracy
+            'epoch': epoch + 1,
+            'train_loss': train_loss / num_batches,
+            'val_loss': val_loss,
+            'val_accuracy': val_acc
         })
+        
+        print(f"Epoch {epoch + 1}/{args.epochs}")
+        print(f"Train Loss: {train_loss/num_batches:.4f}")
+        print(f"Val Loss: {val_loss:.4f}")
+        print(f"Val Accuracy: {val_acc:.4f}")
+    
+    # Compute test metrics
+    test_pred = model.forward(X_test)
+    test_acc = np.mean(np.argmax(test_pred, axis=1) == y_test)
+    print(f"\nTest Accuracy: {test_acc:.4f}")
+    wandb.log({'test_accuracy': test_acc})
 
-    # Set the name of the run
-    run_name = f"hl_{config.num_hidden_layers}_bs_{config.batch_size}_ac_{config.activation_function}_opt_{config.optimizer}_lr_{config.learning_rate}_wd_{config.weight_decay}_wi_{config.weight_initialization}"
-    wandb.run.name = run_name
+def main():
+    """Main function to run the training pipeline."""
+    args = parse_args()
+    
+    # Initialize wandb
+    wandb.init(
+        project=args.wandb_project,
+        entity=args.wandb_entity,
+        config=vars(args)
+    )
+    
+    # Load data
+    data = load_data(args.dataset)
+    
+    # Create model
+    model = create_model(args)
+    
+    # Get loss function
+    loss_fn = get_loss(args.loss)
+    
+    # Train model
+    train(model, loss_fn, data, args)
+    
+    # Close wandb run
+    wandb.finish()
 
-# Run the sweep
-wandb.agent(sweep_id, train, count= 100)
+if __name__ == "__main__":
+    main()

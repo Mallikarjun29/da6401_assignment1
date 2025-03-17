@@ -9,7 +9,6 @@ from Activation import ReLU, Softmax, Sigmoid, Tanh
 from Optimizer import SGD, Momentum, Nesterov, RMSprop, Adam, Nadam
 from Loss import CrossEntropyLoss
 from NeuralNetwork import NeuralNetwork
-from sklearn.metrics import classification_report
 
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]
@@ -60,11 +59,11 @@ def evaluate_best_model(model, X_test, y_test):
         plt.tight_layout()
     
     # Log to wandb
-    # wandb.log({
-    #     "test_accuracy": test_accuracy,
-    #     "confusion_matrix": wandb.Image(fig),
-    #     "misclassified_examples": wandb.Image(fig2)
-    # })
+    wandb.log({
+        "test_accuracy": test_accuracy,
+        "confusion_matrix": wandb.Image(fig),
+        "misclassified_examples": wandb.Image(fig2)
+    })
     
     plt.show()
 
@@ -75,20 +74,20 @@ X_train = X_train.reshape(X_train.shape[0], -1) / 255.0
 
 # Define the best configuration dictionary
 best_config = {
-    'num_hidden_layers': 3,
-    'batch_size': 64,
+    'num_hidden_layers': 2,
+    'batch_size': 32,
     'hidden_layer_size': 128,
     'learning_rate': 0.001,
     'weight_decay': 0,
     'optimizer': Nadam,
     'activation_function': ReLU(),  # Initialize the activation function
-    'weight_initialization': 'xavier',
+    'weight_initialization': 'random',
     'num_epochs': 10
 }
 
 # Initialize wandb
-# wandb.login()
-# wandb.init(project="da6401_assignment_1", name="best_model_evaluation")
+wandb.login()
+wandb.init(project="sweep_experiment_final", name="best_model_evaluation")
 
 # Define optimizer parameters
 optimizer_params = {'learning_rate': best_config['learning_rate'], 'weight_decay': best_config['weight_decay']}
@@ -136,4 +135,4 @@ for epoch in range(best_config['num_epochs']):
 
 # Create and evaluate the model
 evaluate_best_model(best_model, X_test, y_test)
-# wandb.finish()
+wandb.finish()

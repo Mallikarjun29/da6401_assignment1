@@ -117,13 +117,13 @@ y_train = y_train[:-val_size]
 
 # Define the best configuration dictionary
 best_config = {
-    'num_hidden_layers': 3,
-    'batch_size': 64,
+    'num_hidden_layers': 2,
+    'batch_size': 32,
     'hidden_layer_size': 128,
     'learning_rate': 0.001,
     'weight_decay': 0,
     'activation_function': ReLU(),
-    'weight_initialization': 'xavier',
+    'weight_initialization': 'random',
     'num_epochs': 10
 }
 
@@ -161,7 +161,7 @@ def create_and_train_model(optimizer, loss_fn, optimizer_name, loss_name):
 
 # Initialize wandb
 wandb.login()
-wandb.init(project="da6401_assignment_1", name="model_comparison_with_MSE")
+wandb.init(project="sweep_experiment_final", name="model_comparison_with_MSE")
 
 # Train and evaluate with Cross Entropy Loss and Nadam
 train_losses_ce_nadam, val_losses_ce_nadam, gradients_ce_nadam, test_acc_ce_nadam = create_and_train_model(Nadam, CrossEntropyLoss(), "Nadam", "Cross Entropy")

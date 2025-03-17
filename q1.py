@@ -5,7 +5,7 @@ import wandb
 
 # Initialize wandb
 wandb.login()
-wandb.init(project="da6401_assignment_1")
+wandb.init(project="sweep_experiment_final")
 
 # Load the dataset
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()

@@ -1,36 +1,11 @@
 import numpy as np
 from keras.datasets import fashion_mnist
+from Layer import Layer
+from Activation import ReLU, Sigmoid, Softmax
+from NeuralNetwork import NeuralNetwork
+from Loss import CrossEntropyLoss
 
-class FFNN:
-    def __init__(self, input_size, output_size):
-        self.weights = np.random.randn(input_size, output_size) * 0.01
-        self.biases = np.zeros((1, output_size))
-        self.input = None
-        self.output = None
 
-    def forward(self, input_data):
-        self.input = input_data
-        self.output = np.dot(input_data, self.weights) + self.biases
-        return self.output
-
-class FFActivation:
-    def __init__(self):
-        self.input = None
-        self.output = None
-    def forward(self, input_data):
-        raise NotImplementedError
-
-    
-class FFReLU(FFActivation):
-    def forward(self, input_data):
-        self.input = input_data
-        return np.maximum(0, input_data)
-
-    
-class FFSigmoid(FFActivation):
-    def forward(self, input_data):
-        self.output = 1 / (1 + np.exp(-input_data))
-        return self.output
 
 def main():
     # Load the dataset
@@ -41,14 +16,14 @@ def main():
     x_test = x_test.reshape(x_test.shape[0], -1) / 255.0
 
     # Initialize the network
-    layer = FFNN(784, 10)  # 784 because 28*28=784 and 10 because there are 10 classes
-    relu = FFReLU()
-    sigmoid = FFSigmoid()
+    layer = Layer(784, 10)  # 784 because 28*28=784 and 10 because there are 10 classes
+    relu = ReLU()
+    softmax = Softmax()
 
     # Forward pass
-    output = layer.forward(x_train[0:32])
+    output = layer.forward(x_train[0:32]) # Forward pass for the first 32 samples
     output = relu.forward(output)
-    output = sigmoid.forward(output)
+    output = softmax.forward(output)
 
     print("feedforward output", output)
 
