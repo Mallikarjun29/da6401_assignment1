@@ -27,7 +27,13 @@ da6401_assignment1/
 ├── Loss.py           # Loss functions (Cross Entropy, MSE)
 ├── NeuralNetwork.py  # Neural network model
 ├── train.py          # Training script
+├── q1.py
+├── q2.py
+├── q4.py
+├── q7.py
+├── q18py
 └── README.md
+
 ```
 
 ## Training the Model
