@@ -31,7 +31,7 @@ da6401_assignment1/
 ├── q2.py
 ├── q4.py
 ├── q7.py
-├── q18py
+├── q8py
 └── README.md
 
 ```
