@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix, classification_report, precision_r
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
 
 def parse_args():
     """Parse command line arguments."""
@@ -75,16 +76,20 @@ def load_data(dataset_name):
     else:
         (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
     
+    # Combine train and test data for random splitting
+    X = np.concatenate([X_train, X_test])
+    y = np.concatenate([y_train, y_test])
+    
     # Reshape and normalize
-    X_train = X_train.reshape(X_train.shape[0], -1) / 255.0
-    X_test = X_test.reshape(X_test.shape[0], -1) / 255.0
+    X = X.reshape(X.shape[0], -1) / 255.0
+    
+    # Split into train and test
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.15, random_state=42)
     
     # Split training data into train and validation
-    val_size = 5000
-    X_val = X_train[-val_size:]
-    y_val = y_train[-val_size:]
-    X_train = X_train[:-val_size]
-    y_train = y_train[:-val_size]
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_train, y_train, test_size=0.1, random_state=42)
     
     return (X_train, y_train), (X_val, y_val), (X_test, y_test)
 
@@ -187,10 +192,6 @@ def train(model, loss_fn, data, args):
         print(f"Val Accuracy: {val_acc:.4f}")
     
     # Compute test metrics
-    test_pred = model.forward(X_test)
-    test_acc = np.mean(np.argmax(test_pred, axis=1) == y_test)
-    print(f"\nTest Accuracy: {test_acc:.4f}")
-    wandb.log({'test_accuracy': test_acc})
     evaluate_model(model, X_test, y_test, args.dataset)
 
 
