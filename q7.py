@@ -2,7 +2,9 @@ import wandb
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report, precision_recall_fscore_support
+import pandas as pd
+from tabulate import tabulate
 from keras.datasets import fashion_mnist
 from Layer import Layer
 from Activation import ReLU, Softmax, Sigmoid, Tanh
@@ -25,6 +27,42 @@ def evaluate_best_model(model, X_test, y_test):
     # Calculate accuracy
     test_accuracy = np.mean(y_pred_classes == y_test)
     print(f"Test Accuracy: {test_accuracy:.4f}")
+    
+    # Get detailed metrics
+    precision, recall, f1, support = precision_recall_fscore_support(y_test, y_pred_classes, average=None)
+    
+    # Create summary DataFrame
+    metrics_df = pd.DataFrame({
+        'Class': class_names,
+        'Precision': precision,
+        'Recall': recall,
+        'F1-Score': f1,
+        'Support': support
+    })
+    
+    # Add average row
+    avg_precision, avg_recall, avg_f1, _ = precision_recall_fscore_support(y_test, y_pred_classes, average='weighted')
+    metrics_df.loc[len(metrics_df)] = ['Average', avg_precision, avg_recall, avg_f1, np.sum(support)]
+    
+    # Print table
+    print("\nModel Performance Summary:")
+    print(tabulate(metrics_df, headers='keys', tablefmt='grid', floatfmt='.4f'))
+    
+    # Create a styled table for plotting
+    plt.figure(figsize=(12, 6))
+    plt.axis('off')
+    table = plt.table(cellText=metrics_df.values,
+                     colLabels=metrics_df.columns,
+                     cellLoc='center',
+                     loc='center',
+                     colWidths=[0.2, 0.2, 0.2, 0.2, 0.2])
+    table.auto_set_font_size(False)
+    table.set_fontsize(9)
+    table.scale(1.2, 1.8)
+    plt.title('Model Performance Summary', pad=20)
+    
+    # Log table to wandb
+    wandb.log({"performance_summary": wandb.Table(dataframe=metrics_df)})
     
     # Compute confusion matrix
     cm = confusion_matrix(y_test, y_pred_classes)

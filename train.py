@@ -7,6 +7,11 @@ from Activation import ReLU, Softmax, Sigmoid, Tanh
 from Optimizer import SGD, Momentum, Nesterov, RMSprop, Adam, Nadam
 from Loss import CrossEntropyLoss, MSELoss
 from NeuralNetwork import NeuralNetwork
+from tabulate import tabulate
+from sklearn.metrics import confusion_matrix, classification_report, precision_recall_fscore_support
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def parse_args():
     """Parse command line arguments."""
@@ -186,6 +191,101 @@ def train(model, loss_fn, data, args):
     test_acc = np.mean(np.argmax(test_pred, axis=1) == y_test)
     print(f"\nTest Accuracy: {test_acc:.4f}")
     wandb.log({'test_accuracy': test_acc})
+    evaluate_model(model, X_test, y_test, args.dataset)
+
+
+def evaluate_model(model, X_test, y_test, dataset_name):
+    # Class names for Fashion MNIST
+    if dataset_name == 'fashion_mnist':
+        class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                   'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+    else:
+        class_names = [str(i) for i in range(10)]
+    
+    # Get predictions
+    y_pred = model.forward(X_test)
+    y_pred_classes = np.argmax(y_pred, axis=1)
+    
+    # Calculate accuracy
+    test_accuracy = np.mean(y_pred_classes == y_test)
+    print(f"Test Accuracy: {test_accuracy:.4f}")
+    
+    # Get detailed metrics
+    precision, recall, f1, support = precision_recall_fscore_support(y_test, y_pred_classes, average=None)
+    
+    # Create summary DataFrame
+    metrics_df = pd.DataFrame({
+        'Class': class_names,
+        'Precision': precision,
+        'Recall': recall,
+        'F1-Score': f1,
+        'Support': support
+    })
+    
+    # Add average row
+    avg_precision, avg_recall, avg_f1, _ = precision_recall_fscore_support(y_test, y_pred_classes, average='weighted')
+    metrics_df.loc[len(metrics_df)] = ['Average', avg_precision, avg_recall, avg_f1, np.sum(support)]
+    
+    # Print table
+    print("\nModel Performance Summary:")
+    print(tabulate(metrics_df, headers='keys', tablefmt='grid', floatfmt='.4f'))
+    
+    # Create a styled table for plotting
+    plt.figure(figsize=(12, 6))
+    plt.axis('off')
+    table = plt.table(cellText=metrics_df.values,
+                     colLabels=metrics_df.columns,
+                     cellLoc='center',
+                     loc='center',
+                     colWidths=[0.2, 0.2, 0.2, 0.2, 0.2])
+    table.auto_set_font_size(False)
+    table.set_fontsize(9)
+    table.scale(1.2, 1.8)
+    plt.title('Model Performance Summary', pad=20)
+    
+    # Log table to wandb
+    wandb.log({"performance_summary": wandb.Table(dataframe=metrics_df)})
+    
+    # Compute confusion matrix
+    cm = confusion_matrix(y_test, y_pred_classes)
+    
+    # Create figure for confusion matrix
+    fig = plt.figure(figsize=(10, 8))
+    
+    # Plot Confusion Matrix
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=class_names,
+                yticklabels=class_names)
+    plt.title('Confusion Matrix')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=45)
+    
+    # Show misclassified examples in a separate figure
+    incorrect_mask = y_pred_classes != y_test
+    incorrect_indices = np.where(incorrect_mask)[0]
+    
+    if len(incorrect_indices) > 0:
+        fig2 = plt.figure(figsize=(15, 5))
+        plt.suptitle('Misclassified Examples', fontsize=14)
+        
+        for i, idx in enumerate(incorrect_indices[:5]):
+            plt.subplot(1, 5, i + 1)
+            img = X_test[idx].reshape(28, 28)
+            plt.imshow(img, cmap='gray')
+            plt.title(f'True: {class_names[y_test[idx]]}\nPred: {class_names[y_pred_classes[idx]]}')
+            plt.axis('off')
+        plt.tight_layout()
+    
+    # Log to wandb
+    wandb.log({
+        "test_accuracy": test_accuracy,
+        "confusion_matrix": wandb.Image(fig),
+        "misclassified_examples": wandb.Image(fig2)
+    })
+    
+    plt.show()
 
 def main():
     """Main function to run the training pipeline."""
@@ -206,10 +306,11 @@ def main():
     
     # Get loss function
     loss_fn = get_loss(args.loss)
-    
+
+    wandb.run.name = f"{args.dataset}dataset_{args.num_layers}layers_{args.hidden_size}units_{args.activation}a_{args.optimizer}o_{args.epochs}e_{args.batch_size}b_{args.learning_rate}lr_{args.weight_decay}wd_{args.weight_init}wi_{args.loss}loss"
     # Train model
     train(model, loss_fn, data, args)
-    
+
     # Close wandb run
     wandb.finish()
 

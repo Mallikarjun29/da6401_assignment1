@@ -44,7 +44,7 @@ class Layer:
         if weight_init == 'random':
             # Small random initialization to prevent vanishing/exploding gradients
             self.weights = np.random.randn(input_size, output_size) * 0.01
-        elif weight_init == 'xavier':
+        elif weight_init == 'Xavier':
             # Xavier initialization helps maintain variance across layers
             # Formula: W ~ N(0, sqrt(2/(n_in + n_out)))
             self.weights = np.random.randn(input_size, output_size) * np.sqrt(2 / (input_size + output_size))
